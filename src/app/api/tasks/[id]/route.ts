@@ -9,7 +9,7 @@ export async function PUT(request: NextRequest , {params}:{params: {id :string}}
     try {
         const {id} = params;
         const {title , description} = await request.json();
-        const newTask = await taskModel.findByIdAndUpdate(id ,{ title , description})
+        const newTask = await taskModel.findByIdAndUpdate(id ,{ title , description} , {new : true})
         if(!newTask) {
             throw new Error ("Task not found")
         }
