@@ -8,7 +8,7 @@ export const GET = async (request: NextRequest) => {
     try {
       const query = request.nextUrl.searchParams.get("query") 
       const Data:any = query ? await taskModel.where("title",query) : await taskModel.find()
-      return NextResponse.json(Data)
+      return NextResponse.json({Data})
     } catch (error) {
       return new NextResponse("Error Fetching Data" + error)
     }

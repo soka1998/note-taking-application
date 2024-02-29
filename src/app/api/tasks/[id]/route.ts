@@ -36,3 +36,13 @@ export async function DELETE(request :NextRequest) {
         return NextResponse.json({message : err} , {status : 500})
     }    
 }
+export const GET = async (request: NextRequest , {params} : {params: {id: string}} ) => {
+    await connectMongoDB()
+    try {
+      const {id} = params;
+      const Data = await taskModel.findById(id)
+      return NextResponse.json(Data)
+    } catch (error) {
+      return new NextResponse("Error Fetching Data" + error)
+    }
+  }

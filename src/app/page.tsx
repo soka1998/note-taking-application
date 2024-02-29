@@ -1,9 +1,13 @@
 import React from 'react'
+import NotesLists from './components/NotesLists'
 
-const page = () => {
+
+export default function Home() {
   return (
-    <div>page</div>
+  <>
+  <NotesLists/>
+  
+ 
+  </>
   )
 }
-
-export default page;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/store/storeProvider";
+import Navbar from "./components/Navbar";
 
 
 
@@ -19,14 +20,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-      <StoreProvider>
+    <body className={inter.className}>
+      <div className="max-w-3xl mx-auto p-4">
+      <Navbar/>
+      <div className="mt-8">
       {children}
-      </StoreProvider>
-        
+      </div>
+      </div>
      
-      
       </body>
-    </html>
+  </html>
   );
 }
