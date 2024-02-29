@@ -2,13 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
  export const fetchNotes = createAsyncThunk(
     'notes/getAllnotes' , 
-    async ( _:any, thunkApi) => {
+    async (  ) => {
         try {
            const response = await fetch('url');
             const data = await response.json() ;
             return data; 
         } catch (error) {
-           return thunkApi.rejectWithValue(error)
+           return error
         }
     }
 )

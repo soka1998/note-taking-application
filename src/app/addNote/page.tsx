@@ -2,6 +2,9 @@
 import { useState } from "react";
 
 import Link from "next/link";
+import { addNotes  } from "@/store/notes/noteThunk"
+import { AppDispatch, RootState } from "@/store/store"
+import { useDispatch, useSelector } from "react-redux"
 
 
 
@@ -12,31 +15,39 @@ export default function AddNote (){
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const dispatch = useDispatch<AppDispatch>()
+    const { note } = useSelector((state : RootState) => state.note)
+    console.log(note)
+
+
+    const handleAdd = async () => {
+        dispatch(addNotes({ title , description}))
+    }
   
-    const addNote = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/api/tasks", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            title: title,
-            description: description
-          })
-        });
+    // const addNote = async () => {
+    //   try {
+    //     const res = await fetch("http://localhost:3000/api/tasks", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json"
+    //       },
+    //       body: JSON.stringify({
+    //         title: title,
+    //         description: description
+    //       })
+    //     });
   
-        if (!res.ok) {
-          throw new Error("Failed to add note");
-        }
-        // Navigate to home page upon successful addition of note
+    //     if (!res.ok) {
+    //       throw new Error("Failed to add note");
+    //     }
+    //     // Navigate to home page upon successful addition of note
 
         
         
-      } catch (error) {
-        console.error("Error adding note:", error);
-      }
-    };
+    //   } catch (error) {
+    //     console.error("Error adding note:", error);
+    //   }
+    // };
       
     return (
     <>
@@ -44,7 +55,7 @@ export default function AddNote (){
         className="flex flex-col gap-3"
         onSubmit={(e) => {
           e.preventDefault();
-          addNote();
+          handleAdd();
         }}
       >
         <input
@@ -67,7 +78,7 @@ export default function AddNote (){
           <button
            key="add-note-button"
           type="button" // Change the type to prevent form submission
-          onClick={addNote} // Call addNote function when clicked
+          onClick={handleAdd} // Call addNote function when clicked
           className="bg-green-600 font-bold text-white py-3 px-6 w-fit"
         >
           Add Note

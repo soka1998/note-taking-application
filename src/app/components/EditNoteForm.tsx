@@ -1,6 +1,9 @@
 "use client"
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { updateNote  } from "@/store/notes/noteThunk"
+import { AppDispatch, RootState } from "@/store/store"
+import { useDispatch, useSelector } from "react-redux"
 
 
 interface Note {
@@ -9,11 +12,20 @@ interface Note {
   description: string;
 }
 
-export default function EditNoteForm({params}: {params:{id:String}}) {
+export default function EditNoteForm({params}: {params:{id: string}}) {
+  const dispatch = useDispatch<AppDispatch>()
+  const  {note }  = useSelector((state : RootState) => state.note)
+ console.log(note)
   const { id } = params; // Assert router.query to have the type { id: string }
 
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+
+  const handleUpdate = (e: React.FormEvent) => {
+    e.preventDefault(); 
+    dispatch(updateNote({id  ,title , description}));
+   
+  };
 
   useEffect(() => {
     // Fetch the note data when the component mounts
@@ -37,35 +49,35 @@ export default function EditNoteForm({params}: {params:{id:String}}) {
     }
   }, [id]);
 
-  const editNote = async () => {
-    try {
-      const res = await fetch(`http://localhost:3000/api/tasks/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          title: title,
-          description: description
-        })
-      });
+  // const editNote = async () => {
+  //   try {
+  //     const res = await fetch(`http://localhost:3000/api/tasks/${id}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: JSON.stringify({
+  //         title: title,
+  //         description: description
+  //       })
+  //     });
 
-      if (!res.ok) {
-        throw new Error("Failed to edit note");
-      }
-    } catch (error) {
-      console.error("Error editing note:", error);
-    }
-  };
+  //     if (!res.ok) {
+  //       throw new Error("Failed to edit note");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error editing note:", error);
+  //   }
+  // };
 
   return (
     <>
       <form
         className="flex flex-col gap-3"
-        onSubmit={(e) => {
-          e.preventDefault();
-          editNote();
-        }}
+        // onSubmit={(e) => {
+        //   e.preventDefault();
+        //   editNote();
+        // }}
       >
         <input
           className="border border-slate-500 px-8 py-2"
@@ -87,7 +99,7 @@ export default function EditNoteForm({params}: {params:{id:String}}) {
         <button
           type="submit"
           className="bg-green-600 font-bold text-white py-3 px-6 w-fit"
-          onClick={editNote}
+          onClick={handleUpdate}
         >
           Edit Note
         </button>
