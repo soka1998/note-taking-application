@@ -42,8 +42,7 @@ const noteSlice = createSlice({
         state.loading = true
     })
     .addCase(addNotes.fulfilled , (state , action) =>{
-        state.loading = false ,
-        state.note = action.payload
+        state.loading = false
     })
     .addCase(addNotes.rejected , (state , action ) => {
         state.error = action. error,
@@ -55,8 +54,7 @@ const noteSlice = createSlice({
         state.loading = true
     })
     .addCase(updateNote.fulfilled , (state , action) =>{
-        state.loading = false ,
-        state.note = action.payload
+        state.loading = false
     })
     .addCase(updateNote.rejected , (state , action ) => {
         state.error = action. error,
